@@ -1,3 +1,14 @@
+# Record
+## 2024/05
+
+1. 移除不必要的程式碼。
+2. 新增 env folder 並透過 dotenv dotenv-cli 於 package.json 設置環境。
+3. 於 public 新增 scss folder 並調整 setting.json 產出 css file 位置。
+4. 新增 AppReactstrap.js 測試 ReactstrapUI。
+5. 新增 AppRoute.js 測試 React Router。
+6. 於 src 新增 component folder 開發 各 component。
+7. 於 component folder 新增 CardItem.js 測試 ReactstrapUI-Card 功能。
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

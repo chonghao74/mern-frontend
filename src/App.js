@@ -1,25 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
-
+//import styles_app from "./scss/app.scss";
+import "./style/app.css";
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  window.addEventListener("beforeunload", function (e) {
+    e.preventDefault();
+    // var confirmationMessage = "你還沒有完成你的文章，就這樣離開了嗎？";
+
+    // e.returnValue = confirmationMessage; //Gecko + IE
+    // return confirmationMessage; //Webkit, Safari, Chrome
+  });
+
+  return <div id="img_set"></div>;
 }
 
 export default App;
