@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+
+.section-style{
+  background-color: rgb(240, 209, 209);
+  margin-top: 15px;
+}
+
+div#div-card-style{
+  display: flex;
+  justify-content: space-between;
+}
+
+#img_set{
+  background-image: url('/public/images/deskLands.webp');
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100vh;
+}
+
+@media screen and (orientation:landscape){
+  #img_set{
+    background-image: url('/public/images/deskLands.webp');
+  }
+}
+
+@media screen and (orientation:portrait) and (max-width: 700px) {
+  #img_set{
+    background-image: url('/public/images/mobilePort.jpeg');
+  }
+}
