@@ -1,3 +1,4 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
 * {
   margin: 0px;
   padding: 0px;
@@ -11,7 +12,7 @@
 
 div#div-card-style {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 #img_set {

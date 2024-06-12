@@ -1,4 +1,15 @@
 # Record
+
+## 2024/06
+
+1. 練習 dto。
+2. 新增 Loading functional component 做 Loading page by ReactstrapUI。
+3. 修正 Loading functional component，底部滿版透明灰、禁止底部滑動與多做白底框框內有 Spinner(reactUI), label, Button(reactUI)。
+4. 新增 env API URL 記得要加入 REACT_APP_ 才能取得到資料。
+5. 使用 axios 進行 call web api 。
+6. 安裝 dayjs 對時間進行 format
+
+
 ## 2024/05
 
 1. 移除不必要的程式碼。
@@ -8,6 +19,7 @@
 5. 新增 AppRoute.js 測試 React Router。
 6. 於 src 新增 component folder 開發 各 component。
 7. 於 component folder 新增 CardItem.js 測試 ReactstrapUI-Card 功能。
+8. 於 app.scss import bootstrapt，保證 ReactstrapUI 能夠運作。
 
 # Getting Started with Create React App
 
