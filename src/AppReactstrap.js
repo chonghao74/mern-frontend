@@ -10,8 +10,8 @@ import Courses from "./dto/Courses";
 function AppReactstrap() {
   let [loading, setLoading] = useState(false);
   let [courses, setCourses] = useState([]);
-  let userToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxY2U0M2RkM2Q4OGIyYTg4YWRhOTYiLCJlbWFpbCI6IlRpbUluczAxQGdtYWlsLmNvbSIsImlhdCI6MTcxODA5MjAxOX0.b4ZJ4CeM_RcBWv0LKZBimyTyiAFfrlIoK2s2vcnNKKg";
+  let [users, setUsers] = useState(null);
+  let userToken;
   const searchSubUrl = "/api/course/search";
   const loginSubUrl = "/api/user/login";
 
@@ -27,31 +27,27 @@ function AppReactstrap() {
     timeout: 1000,
   });
 
-  const getStudentToken = async (e, account, password) => {
-    setLoading(true);
+  const getUserData = async (e, account, password) => {
     const loginData = {
       email: account,
       password: password,
     };
-
+    setLoading(true);
     try {
-      const getUserData = await axiosAPIClient.post(loginSubUrl, loginData);
+      const userData = await axiosAPIClient.post(loginSubUrl, loginData);
 
-      if (getUserData) {
-        const userData = new Users(getUserData.data.data.user);
-        console.log(userData);
+      if (userData) {
+        userToken = userData.data.data.token;
+        setUsers(new Users(userData.data.data.user));
+        console.log(users);
       } else {
         alert("Fail");
       }
     } catch (e) {
-      console.log(e);
+      alert(e);
     } finally {
       setLoading(false);
     }
-  };
-
-  const getInstructorToken = async () => {
-    setLoading(true);
   };
 
   const getCourse = async (e) => {
@@ -60,15 +56,16 @@ function AppReactstrap() {
     //資料擷取完成時
 
     try {
-      const userData = await axiosAPIClient.get("/api/course/search");
-      if (userData) {
+      const coursesData = await axiosAPIClient.get("/api/course/search");
+      if (coursesData) {
         let dataArray = [];
-        userData.data.data.message.forEach((data) => {
+        console.log(coursesData.data);
+        coursesData.data.data.message.forEach((data) => {
           const Data = new Courses(data);
           dataArray.push(Data);
         });
-        console.log(dataArray);
-        setCourses(userData.data.data.message);
+        // console.log(dataArray);
+        // setCourses(userData.data.data.message);
       }
     } catch (e) {
       console.log(e);
@@ -117,13 +114,24 @@ function AppReactstrap() {
         <a href="http://google.com" target="_self" rel="noopener noreferrer">
           Google
         </a>
+        {users ? (
+          <Button id="user" type="button">
+            {users.name}
+          </Button>
+        ) : (
+          <Button id="user" type="button">
+            無
+          </Button>
+        )}
+      </header>
+      <navigator>
         <div style={{ backgroundColor: "white", paddingLeft: "20px" }}>
           <Button
             outline
             color="secondary"
             style={{ marginRight: "10px" }}
             onClick={(e) => {
-              getInstructorToken(e);
+              getUserData(e, "TimIns01@gmail.com", "12345678");
             }}
           >
             Login by Instructor
@@ -133,7 +141,7 @@ function AppReactstrap() {
             color="success"
             style={{ marginRight: "10px" }}
             onClick={(e) => {
-              getStudentToken(e, "timStu01@gmail.com", "12345678");
+              getUserData(e, "timStu01@gmail.com", "12345678");
             }}
           >
             Login by Student
@@ -149,7 +157,7 @@ function AppReactstrap() {
             getCourse
           </Button>
         </div>
-      </header>
+      </navigator>
       <main>
         <section className="section-style">
           <div id="div-card-style">

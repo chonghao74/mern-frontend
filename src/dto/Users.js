@@ -6,6 +6,8 @@ export default class Users {
   /** @type {string} */
   email;
   /** @type {string} */
+  name;
+  /** @type {string} */
   role;
   /** @type {string} */
   date;
@@ -13,6 +15,7 @@ export default class Users {
   constructor(data) {
     this._id = String(data?._id);
     this.email = String(data?.email);
+    this.name = String(data?.name);
     this.role = String(data?.role);
     dayjs().format();
     // const formateDate = dayjs(data?.date, "MM-DD-YYYY");
