@@ -20,7 +20,7 @@ function CardItem(props) {
         style={{
           width: "200px",
           backgroundColor: "yellow",
-          margin: "10px 50px",
+          margin: "10px 20px",
         }}
       >
         <img

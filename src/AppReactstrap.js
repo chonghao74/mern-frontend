@@ -1,17 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "reactstrap";
 import CardItem from "./component/CardItem";
+import AlertItem from "./component/AlertItem";
 import "./style/app.css";
 import axios from "axios";
 import Users from "./dto/Users";
 import Loading from "./component/Loading";
+
 import Courses from "./dto/Courses";
 
 function AppReactstrap() {
   let [loading, setLoading] = useState(false);
   let [courses, setCourses] = useState([]);
   let [users, setUsers] = useState(null);
-  let userToken;
+
+  let [userToken, setUserToken] = useState("");
+  let [modal, setModal] = useState(false);
+
+  let [modalContent, setModalContent] = useState("");
+  let [modalTitle, setModalTitle] = useState("Tip");
+  let [btnText, setbtnText] = useState("close");
+
+  const showOrCloseModal = (e, modalTitle, modalContent, btnText) => {
+    if (e) e.preventDefault();
+
+    setLoading(true);
+    if (!modal) {
+      if (modalTitle) {
+        setModalTitle(modalTitle);
+      }
+
+      if (modalContent) {
+        setModalContent(modalContent);
+      }
+
+      if (btnText) {
+        setbtnText(btnText);
+      }
+    }
+
+    setModal(!modal);
+    setLoading(false);
+  };
+  const showJSAlertAndCloseModal = () => {
+    window.alert("Show JS");
+    setModal(false);
+  };
+
   const searchSubUrl = "/api/course/search";
   const loginSubUrl = "/api/user/login";
 
@@ -20,6 +55,8 @@ function AppReactstrap() {
     { title: 2, subtitle: "Ivy", content: 39 },
     { title: 3, subtitle: "Oliver", content: 5 },
   ];
+
+  let datalist = [1, 2, 3, 4, 5, 10, 20];
 
   const axiosAPIClient = axios.create({
     baseURL: `${process.env.REACT_APP_MERNJWT_API_URL}`,
@@ -37,14 +74,14 @@ function AppReactstrap() {
       const userData = await axiosAPIClient.post(loginSubUrl, loginData);
 
       if (userData) {
-        userToken = userData.data.data.token;
+        setUserToken(userData.data.data.token);
         setUsers(new Users(userData.data.data.user));
-        console.log(users);
+        console.log(`Call Login is ${userData.data.data.result}`);
       } else {
         alert("Fail");
       }
     } catch (e) {
-      alert(e);
+      showOrCloseModal(null, "Get User Data", `${e.message}`, "Yes");
     } finally {
       setLoading(false);
     }
@@ -58,17 +95,22 @@ function AppReactstrap() {
     try {
       const coursesData = await axiosAPIClient.get("/api/course/search");
       if (coursesData) {
-        let dataArray = [];
-        console.log(coursesData.data);
-        coursesData.data.data.message.forEach((data) => {
-          const Data = new Courses(data);
-          dataArray.push(Data);
-        });
-        // console.log(dataArray);
-        // setCourses(userData.data.data.message);
+        if (coursesData.data.code === 200) {
+          console.log(coursesData.data.data.message);
+
+          setCourses(coursesData.data.data.message);
+        } else {
+          showOrCloseModal(
+            null,
+            "Get Course Data",
+            `${coursesData.data.data.result}`,
+            "True"
+          );
+        }
+        console.log(`Call Get Courses is ${coursesData.data.data.result}`);
       }
     } catch (e) {
-      console.log(e);
+      showOrCloseModal(null, "Get Course Data", `${e.message}`, "True");
     } finally {
       setLoading(false);
     }
@@ -108,6 +150,13 @@ function AppReactstrap() {
             zIndex: "-1000000",
           }}
         />
+        <AlertItem
+          isOpen={modal}
+          setModal={setModal}
+          title={modalTitle}
+          content={modalContent}
+          btnText={btnText}
+        ></AlertItem>
         <Loading setLoading={setLoading}></Loading>
       </div>
       <header>
@@ -160,19 +209,32 @@ function AppReactstrap() {
       </navigator>
       <main>
         <section className="section-style">
-          <div id="div-card-style">
-            {courses.map((data, index) => {
-              return (
-                <CardItem
-                  title={data.title}
-                  subtitle={data.price}
-                  content={data.description}
-                ></CardItem>
-              );
-            })}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              //backgroundColor: "red",
+            }}
+          >
+            <div id="div-card-style">
+              {courses.map((data, index) => {
+                console.log(data);
+                return (
+                  <CardItem
+                    title={data.title}
+                    subtitle={data.price}
+                    content={data.description}
+                  ></CardItem>
+                );
+              })}
+            </div>
           </div>
         </section>
+
+        <section className="section-style"></section>
       </main>
+      get
     </div>
   );
 }

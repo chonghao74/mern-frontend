@@ -5,11 +5,12 @@
 1. 練習 dto。
 2. 新增 Loading functional component 做 Loading page by ReactstrapUI。
 3. 修正 Loading functional component，底部滿版透明灰、禁止底部滑動與多做白底框框內有 Spinner(reactUI), label, Button(reactUI)。
-4. 新增 env API URL 記得要加入 REACT_APP_ 才能取得到資料。
+4. 新增 env API URL 記得要加入 REACT*APP* 才能取得到資料。
 5. 使用 axios 進行 call web api。
 6. 安裝 dayjs 對時間進行 format。
 7. 新增 .env.prod 與 調整 script build 內容。
-
+8. 課程 透過 Flex 顯示。
+9. 透過 Modal 做 Alert page by ReactstrapUI。
 
 ## 2024/05
 
