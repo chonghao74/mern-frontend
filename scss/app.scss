@@ -9,14 +9,16 @@
 
 
 .section-style{
-  background-color: rgb(240, 209, 209);
   margin-top: 15px;
 }
 
 div#div-card-style{
   display: flex;
   flex-wrap: wrap;
+  width: 70vw;
+  justify-content: "center",
 }
+
 
 #img_set{
   background-image: url('/public/images/deskLands.webp');
@@ -29,10 +31,26 @@ div#div-card-style{
   #img_set{
     background-image: url('/public/images/deskLands.webp');
   }
+
+  #div-card-style{
+    display: flex;
+    flex-wrap: wrap;
+    width: 70vw;
+    /*background-color: blue;*/
+    
+  }
 }
 
 @media screen and (orientation:portrait) and (max-width: 700px) {
   #img_set{
     background-image: url('/public/images/mobilePort.jpeg');
+  }
+
+  #div-card-style{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    /*background-color: aqua;*/
+    justify-content: center;
   }
 }
