@@ -17,11 +17,21 @@ function CardItem(props) {
   return (
     <div>
       <Card
-        style={{
-          width: "200px",
-          backgroundColor: "yellow",
-          margin: "10px 20px",
-        }}
+        style={
+          Number(props.subtitle) > 500
+            ? {
+                width: "200px",
+                height: "300px",
+                backgroundColor: "yellow",
+                margin: "10px 20px",
+              }
+            : {
+                width: "200px",
+                height: "400px",
+                backgroundColor: "red",
+                margin: "10px 20px",
+              }
+        }
       >
         <img
           className="card_img"

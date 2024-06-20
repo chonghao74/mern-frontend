@@ -24,7 +24,6 @@ function AppReactstrap() {
   const showOrCloseModal = (e, modalTitle, modalContent, btnText) => {
     if (e) e.preventDefault();
 
-    setLoading(true);
     if (!modal) {
       if (modalTitle) {
         setModalTitle(modalTitle);
@@ -40,11 +39,6 @@ function AppReactstrap() {
     }
 
     setModal(!modal);
-    setLoading(false);
-  };
-  const showJSAlertAndCloseModal = () => {
-    window.alert("Show JS");
-    setModal(false);
   };
 
   const searchSubUrl = "/api/course/search";
@@ -93,7 +87,7 @@ function AppReactstrap() {
     //資料擷取完成時
 
     try {
-      const coursesData = await axiosAPIClient.get("/api/course/search");
+      const coursesData = await axiosAPIClient.get(searchSubUrl);
       if (coursesData) {
         if (coursesData.data.code === 200) {
           console.log(coursesData.data.data.message);
@@ -214,7 +208,6 @@ function AppReactstrap() {
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "center",
-              //backgroundColor: "red",
             }}
           >
             <div id="div-card-style">
@@ -232,9 +225,10 @@ function AppReactstrap() {
           </div>
         </section>
 
-        <section className="section-style"></section>
+        <section className="section-style" style={{ fontSize: "500px" }}>
+          1
+        </section>
       </main>
-      get
     </div>
   );
 }
