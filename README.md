@@ -13,6 +13,9 @@
 9. 透過 Modal 做 Alert page by ReactstrapUI。
 10. 測試 css 於 tag expression css style。
 
+11. 測試 useState 若沒有使用updater 則會是非同步。
+12. 測試 useState array 與 object insert data 作法。
+
 ## 2024/05
 
 1. 移除不必要的程式碼。

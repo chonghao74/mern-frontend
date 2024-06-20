@@ -10,16 +10,21 @@ import Loading from "./component/Loading";
 import Courses from "./dto/Courses";
 
 function AppReactstrap() {
+  //Loading
   let [loading, setLoading] = useState(false);
+  //API
   let [courses, setCourses] = useState([]);
   let [users, setUsers] = useState(null);
-
   let [userToken, setUserToken] = useState("");
+  //Alert
   let [modal, setModal] = useState(false);
-
   let [modalContent, setModalContent] = useState("");
   let [modalTitle, setModalTitle] = useState("Tip");
   let [btnText, setbtnText] = useState("close");
+  //Test useState
+  let [count, setCount] = useState(0);
+  const [items, setItems] = useState([1, 2, 3, 4, 5, 10, 20]);
+  const [student, setStudent] = useState({ name: "Tim", gender: "male" });
 
   const showOrCloseModal = (e, modalTitle, modalContent, btnText) => {
     if (e) e.preventDefault();
@@ -41,22 +46,14 @@ function AppReactstrap() {
     setModal(!modal);
   };
 
-  const searchSubUrl = "/api/course/search";
-  const loginSubUrl = "/api/user/login";
-
-  const myFriends = [
-    { title: 1, subtitle: "Tim", content: 38 },
-    { title: 2, subtitle: "Ivy", content: 39 },
-    { title: 3, subtitle: "Oliver", content: 5 },
-  ];
-
-  let datalist = [1, 2, 3, 4, 5, 10, 20];
-
   const axiosAPIClient = axios.create({
     baseURL: `${process.env.REACT_APP_MERNJWT_API_URL}`,
     headers: { Authorization: `${process.env.REACT_APP_PREFIX} ${userToken}` },
     timeout: 1000,
   });
+
+  const searchSubUrl = "/api/course/search";
+  const loginSubUrl = "/api/user/login";
 
   const getUserData = async (e, account, password) => {
     const loginData = {
@@ -122,6 +119,47 @@ function AppReactstrap() {
       }
     }
   }, [loading]);
+
+  const addCount = (e) => {
+    e.preventDefault();
+    setCount(count + 1);
+
+    console.log(`addCount ${count}`);
+  };
+
+  useEffect(() => {
+    console.log(`useEffect ${count}`);
+  }, [count]);
+
+  const addDataToArray_One = (e, data) => {
+    e.preventDefault();
+    const newDataList = [1, 2, 3, 4, 5, 10, 20, data];
+    setItems(newDataList);
+  };
+
+  const addDataToArray_Two = (e, data) => {
+    e.preventDefault();
+    setItems([...items, data]);
+  };
+
+  useEffect(() => {
+    console.log(`useEffect ${items}`);
+  }, [items]);
+
+  const addDataToObject_One = (e) => {
+    e.preventDefault();
+    const newObject = { name: "Ivy", gender: "Female" };
+    setStudent(newObject);
+  };
+
+  const addDataToObject_Two = (e) => {
+    e.preventDefault();
+    setStudent({ ...student, name: "Oliver" });
+  };
+
+  useEffect(() => {
+    console.log(`useEffect ${student.name}`);
+  }, [student]);
 
   return (
     <div id="img_set">
@@ -225,8 +263,54 @@ function AppReactstrap() {
           </div>
         </section>
 
-        <section className="section-style" style={{ fontSize: "500px" }}>
-          1
+        <section
+          className="section-style"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            color="secondary"
+            onClick={(e) => {
+              addCount(e);
+            }}
+          >
+            Test useState Aync Add Count
+          </Button>
+          <Button
+            color="success"
+            onClick={(e) => {
+              addDataToArray_One(e, 30);
+            }}
+          >
+            Test useState Add Data to Array One
+          </Button>
+          <Button
+            color="success"
+            onClick={(e) => {
+              addDataToArray_Two(e, 40);
+            }}
+          >
+            Test useState Add Data to Array Two
+          </Button>
+          <Button
+            color="danger"
+            onClick={(e) => {
+              addDataToObject_One(e);
+            }}
+          >
+            Test useState Add Data to Array One
+          </Button>
+          <Button
+            color="danger"
+            onClick={(e) => {
+              addDataToObject_Two(e);
+            }}
+          >
+            Test useState Add Data to Array Two
+          </Button>
         </section>
       </main>
     </div>
