@@ -13,8 +13,15 @@
 9. 透過 Modal 做 Alert page by ReactstrapUI。
 10. 測試 css 於 tag expression css style。
 
-11. 測試 useState 若沒有使用updater 則會是非同步。
+11. 測試 useState 若沒有使用 updater 則會是非同步。
 12. 測試 useState array 與 object insert data 作法。
+13. 測試 react 讀取 public/images 內的圖片，改用 process.env.PUBLIC_URL 作法。
+14. 測試 react 使用 window.matchMedia 搭配 useState, useEffect 做到 css media 效果。
+15. 測試 react.memo 讓外部元件，分別測試有使用跟無使用情況。
+16. 測試 react.memo 除了系統會判斷外，也可自行判斷並操作是否要 re-render。
+17. 透過 Collapse 做 block is opening and close by ReactstrapUI。
+
+
 
 ## 2024/05
 

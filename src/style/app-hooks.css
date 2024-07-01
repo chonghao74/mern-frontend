@@ -1,0 +1,79 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.section-style {
+  margin-top: 15px;
+}
+
+div#div-card-style {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70vw;
+  justify-content: "center";
+}
+
+#img_set {
+  background-image: url("/public/images/deskLands.webp");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+@media screen and (orientation: landscape) {
+  #img_set {
+    background-image: url("/public/images/deskLands.webp");
+  }
+  #div-card-style {
+    display: flex;
+    flex-wrap: wrap;
+    width: 70vw;
+    /*background-color: blue;*/
+  }
+}
+@media screen and (orientation: portrait) and (max-width: 700px) {
+  #img_set {
+    background-image: url("/public/images/mobilePort.jpeg");
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  #div-card-style {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    /*background-color: aqua;*/
+    justify-content: center;
+  }
+}
+.header_div_set {
+  display: none;
+  width: 400px;
+  height: 10px;
+}
+
+.header_button_set {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.header_img_set {
+  display: none;
+  width: 40px;
+  height: 40px;
+}
+
+@media screen and (max-width: 700px) {
+  .header_button_set {
+    display: none;
+  }
+  .header_div_set {
+    display: inline-block;
+  }
+  .header_img_set {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+  }
+}/*# sourceMappingURL=app-hooks.css.map */

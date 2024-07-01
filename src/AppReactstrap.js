@@ -8,6 +8,7 @@ import Users from "./dto/Users";
 import Loading from "./component/Loading";
 
 import Courses from "./dto/Courses";
+import { Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 
 function AppReactstrap() {
   //Loading
@@ -21,6 +22,8 @@ function AppReactstrap() {
   let [modalContent, setModalContent] = useState("");
   let [modalTitle, setModalTitle] = useState("Tip");
   let [btnText, setbtnText] = useState("close");
+  //SlideMenu
+  const [offcanvas, setOffcanvas] = useState(false);
   //Test useState
   let [count, setCount] = useState(0);
   const [items, setItems] = useState([1, 2, 3, 4, 5, 10, 20]);
@@ -56,11 +59,15 @@ function AppReactstrap() {
   const loginSubUrl = "/api/user/login";
 
   const getUserData = async (e, account, password) => {
+    e.preventDefault();
+
     const loginData = {
       email: account,
       password: password,
     };
+
     setLoading(true);
+
     try {
       const userData = await axiosAPIClient.post(loginSubUrl, loginData);
 
@@ -102,6 +109,26 @@ function AppReactstrap() {
       }
     } catch (e) {
       showOrCloseModal(null, "Get Course Data", `${e.message}`, "True");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateCourse = async (e, _id, title, description, price) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const updateData = {
+      _id: _id,
+      title: title,
+      description: description,
+      price: price,
+    };
+    //資料擷取完成時
+
+    try {
+    } catch (e) {
+      showOrCloseModal(null, "Update Course", `${e.message}`, "True");
     } finally {
       setLoading(false);
     }
@@ -161,6 +188,28 @@ function AppReactstrap() {
     console.log(`useEffect ${student.name}`);
   }, [student]);
 
+  const ShowCardItem = React.memo(
+    (props) => {
+      return props.courses.map((data, index) => {
+        console.log(1);
+        return (
+          <CardItem
+            title={data.title}
+            subtitle={data.price}
+            content={data.description}
+          ></CardItem>
+        );
+      });
+    },
+    (prevProps, nextProps) => {
+      console.log(prevProps !== nextProps);
+      if (prevProps !== nextProps) {
+        return false;
+      }
+      return true;
+    }
+  );
+
   return (
     <div id="img_set">
       <div
@@ -190,6 +239,23 @@ function AppReactstrap() {
           btnText={btnText}
         ></AlertItem>
         <Loading setLoading={setLoading}></Loading>
+        <Offcanvas
+          isOpen={offcanvas}
+          toggle={function noRefCheck() {
+            setOffcanvas(!offcanvas);
+          }}
+        >
+          <OffcanvasHeader
+            toggle={function noRefCheck() {
+              setOffcanvas(!offcanvas);
+            }}
+          >
+            Offcanvas
+          </OffcanvasHeader>
+          <OffcanvasBody>
+            <strong>This is the Offcanvas body.</strong>
+          </OffcanvasBody>
+        </Offcanvas>
       </div>
       <header>
         <a href="http://google.com" target="_self" rel="noopener noreferrer">
@@ -207,36 +273,50 @@ function AppReactstrap() {
       </header>
       <navigator>
         <div style={{ backgroundColor: "white", paddingLeft: "20px" }}>
-          <Button
-            outline
-            color="secondary"
-            style={{ marginRight: "10px" }}
-            onClick={(e) => {
-              getUserData(e, "TimIns01@gmail.com", "12345678");
-            }}
-          >
-            Login by Instructor
-          </Button>
-          <Button
-            outline
-            color="success"
-            style={{ marginRight: "10px" }}
-            onClick={(e) => {
-              getUserData(e, "timStu01@gmail.com", "12345678");
-            }}
-          >
-            Login by Student
-          </Button>
-          <Button
-            outline
-            color="info"
-            style={{ marginRight: "10px" }}
-            onClick={(e) => {
-              getCourse(e);
-            }}
-          >
-            getCourse
-          </Button>
+          <div>
+            <Button
+              outline
+              color="secondary"
+              style={{ marginRight: "10px" }}
+              onClick={(e) => {
+                getUserData(e, "TimIns01@gmail.com", "12345678");
+              }}
+            >
+              Login by Instructor
+            </Button>
+            <Button
+              outline
+              color="success"
+              style={{ marginRight: "10px" }}
+              onClick={(e) => {
+                getUserData(e, "timStu01@gmail.com", "12345678");
+              }}
+            >
+              Login by Student
+            </Button>
+            <Button
+              outline
+              color="info"
+              style={{ marginRight: "10px" }}
+              onClick={(e) => {
+                getCourse(e);
+              }}
+            >
+              getCourse
+            </Button>
+          </div>
+          <div>
+            <Button
+              outline
+              color="danger"
+              style={{ marginRight: "10px" }}
+              onClick={function noRefCheck() {
+                setOffcanvas(!offcanvas);
+              }}
+            >
+              SliderMenu
+            </Button>
+          </div>
         </div>
       </navigator>
       <main>
@@ -249,16 +329,7 @@ function AppReactstrap() {
             }}
           >
             <div id="div-card-style">
-              {courses.map((data, index) => {
-                console.log(data);
-                return (
-                  <CardItem
-                    title={data.title}
-                    subtitle={data.price}
-                    content={data.description}
-                  ></CardItem>
-                );
-              })}
+              <ShowCardItem courses={courses} />
             </div>
           </div>
         </section>
@@ -312,6 +383,7 @@ function AppReactstrap() {
             Test useState Add Data to Array Two
           </Button>
         </section>
+        <section></section>
       </main>
     </div>
   );
