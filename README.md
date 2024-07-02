@@ -1,5 +1,8 @@
 # Record
 
+## 2024/07
+1. 練習使用 react-windows 套件製作有效地呈現大型列表與表格，只顯示可視範圍。
+
 ## 2024/06
 
 1. 練習 dto。
@@ -20,8 +23,6 @@
 15. 測試 react.memo 讓外部元件，分別測試有使用跟無使用情況。
 16. 測試 react.memo 除了系統會判斷外，也可自行判斷並操作是否要 re-render。
 17. 透過 Collapse 做 block is opening and close by ReactstrapUI。
-
-
 
 ## 2024/05
 

@@ -6,9 +6,32 @@ import "./style/app.css";
 import axios from "axios";
 import Users from "./dto/Users";
 import Loading from "./component/Loading";
+import ArticleItem from "./component/ArticleItem";
+import { FixedSizeList as List } from "react-window";
 
 import Courses from "./dto/Courses";
 import { Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
+
+const ShowArticleItem = React.memo(
+  (props) => {
+    return props.article.map((data, index) => {
+      console.log(1);
+      return (
+        <ArticleItem
+          title={data.title}
+          content={data.content}
+          date={data.date}
+        ></ArticleItem>
+      );
+    });
+  },
+  (prevProps, nextProps) => {
+    if (prevProps !== nextProps) {
+      return false;
+    }
+    return true;
+  }
+);
 
 function AppReactstrap() {
   //Loading
@@ -17,6 +40,7 @@ function AppReactstrap() {
   let [courses, setCourses] = useState([]);
   let [users, setUsers] = useState(null);
   let [userToken, setUserToken] = useState("");
+  let [article, setArticle] = useState([]);
   //Alert
   let [modal, setModal] = useState(false);
   let [modalContent, setModalContent] = useState("");
@@ -188,27 +212,26 @@ function AppReactstrap() {
     console.log(`useEffect ${student.name}`);
   }, [student]);
 
-  const ShowCardItem = React.memo(
-    (props) => {
-      return props.courses.map((data, index) => {
-        console.log(1);
-        return (
-          <CardItem
-            title={data.title}
-            subtitle={data.price}
-            content={data.description}
-          ></CardItem>
-        );
-      });
-    },
-    (prevProps, nextProps) => {
-      console.log(prevProps !== nextProps);
-      if (prevProps !== nextProps) {
-        return false;
-      }
-      return true;
+  const ShowCardItem = (props) => {
+    return props.courses.map((data, index) => {
+      console.log(1);
+      return (
+        <CardItem
+          title={data.title}
+          subtitle={data.price}
+          content={data.description}
+        ></CardItem>
+      );
+    });
+  };
+
+  useEffect(() => {
+    const newArray = [];
+    for (let i = 0; i < 10; i++) {
+      newArray.push({ title: `Tim ${i}`, content: "GGGG", date: "2024/01/01" });
     }
-  );
+    setArticle(newArray);
+  }, []);
 
   return (
     <div id="img_set">
@@ -383,7 +406,33 @@ function AppReactstrap() {
             Test useState Add Data to Array Two
           </Button>
         </section>
-        <section></section>
+        <section>
+          <div
+            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+          >
+            <List
+              itemData={article}
+              itemCount={article.length}
+              itemSize={200}
+              width={"100%"}
+              height={500}
+            >
+              {({ index, style }) => {
+                console.log(index);
+                return (
+                  <div style={style}>
+                    <ArticleItem
+                      index={index}
+                      title={article[index].title}
+                      content={article[index].content}
+                      date={article[index].date}
+                    ></ArticleItem>
+                  </div>
+                );
+              }}
+            </List>
+          </div>
+        </section>
       </main>
     </div>
   );
