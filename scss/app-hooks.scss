@@ -1,0 +1,37 @@
+@charset "utf-8";
+@import "../scss/app.scss";
+
+.header_div_set{
+  display: none;
+  width: 400px;
+  height: 10px;
+}
+
+.header_button_set{
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.header_img_set{
+  display: none;
+  width: 40px;
+  height: 40px; 
+}
+
+
+@media screen and (max-width: 700px) {
+  .header_button_set{
+    display: none;
+  }
+
+  .header_div_set{
+    display: inline-block;
+  }
+
+  .header_img_set{
+    display: inline-block;
+    width: 40px;
+    height: 40px; 
+  }
+
+}
