@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./style/app-hooks.css";
 import { Button } from "reactstrap";
 import Loading from "./component/Loading";
@@ -7,6 +7,12 @@ import TitleNameUseMemo from "./component/testReactMemo/TitleNameUseMemo";
 import HeaderItem from "./component/hooksHeader/HeaderItem";
 import { Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 import { Collapse, CardBody, Card } from "reactstrap";
+import ArticleItem from "./component/ArticleItem";
+import { FixedSizeList as List } from "react-window";
+import ODefaultCounter from "./component/testSelfHookCounter/ODefaultCounter";
+import OSuperCounter from "./component/testSelfHookCounter/OSuperCounter";
+import NDefaultCounter from "./component/testSelfHookCounter/NDefaultCounter";
+import NSuperCounter from "./component/testSelfHookCounter/NSuperCounter";
 
 const TitleIN1 = React.memo((props) => {
   console.log("TitleIN1 used memo.");
@@ -41,6 +47,11 @@ function AppHooks() {
   //Section Collapse
   const [s1Collapse, setS1Collapse] = useState(false);
   const [s2Collapse, setS2Collapse] = useState(false);
+  const [s3Collapse, setS3Collapse] = useState(false);
+  const [s4Collapse, setS4Collapse] = useState(false);
+  //
+  const [article, setArticle] = useState([]);
+  const [articleCount, setArticleCount] = useState(200);
 
   //useEffect
   useEffect(() => {
@@ -92,6 +103,62 @@ function AppHooks() {
     setCountUpdater((newCount) => newCount + 1);
     setCountUpdater((newCount) => newCount + 1);
   };
+
+  //Test useMemo
+  const showArticle = useMemo(() => {
+    return (
+      <List
+        className="list_react_window"
+        itemData={article}
+        itemCount={article.length}
+        itemSize={200}
+        width={"100%"}
+        height={500}
+      >
+        {({ index, style }) => {
+          console.log(index);
+          return (
+            <div style={style}>
+              <ArticleItem
+                index={index}
+                title={article[index].title}
+                content={article[index].content}
+                date={article[index].date}
+              ></ArticleItem>
+            </div>
+          );
+        }}
+      </List>
+    );
+  }, [article]);
+
+  useEffect(() => {
+    const newArray = [];
+    for (let i = 0; i < articleCount; i++) {
+      newArray.push({ title: `Tim ${i}`, content: "GGGG", date: "2024/01/01" });
+    }
+    setArticle(newArray);
+  }, [articleCount]);
+
+  useEffect(() => {
+    const a_cardbody = document.getElementsByClassName("list_react_window");
+    // console.log(a_cardbody);
+    if (a_cardbody) {
+      //to Top
+
+      // a_cardbody[0].scrollTo({
+      //   bottom: 0,
+      //   behavior: "smooth",
+      // });
+
+      //to Bottom
+
+      a_cardbody[0].scrollTo({
+        top: a_cardbody[0].scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [article]);
 
   return (
     <div id="img_set">
@@ -174,7 +241,7 @@ function AppHooks() {
                 setS1Collapse(!s1Collapse);
               }}
             >
-              Test memo {s1Collapse ? "Open" : "Close"}
+              Test React.memo {s1Collapse ? "Open" : "Close"}
             </h1>
           </div>
           <div>
@@ -224,29 +291,104 @@ function AppHooks() {
         </section>
         <section>
           <div>
-            <h1 style={{ color: "red" }}>Test useMemo</h1>
+            <h1
+              style={{ color: "red" }}
+              onClick={() => {
+                setS2Collapse(!s2Collapse);
+              }}
+            >
+              Test useState Updater {s2Collapse ? "Open" : "Close"}
+            </h1>
           </div>
           <div>
-            <Button
-              style={{ marginBottom: "10px" }}
-              onClick={(e) => {
-                testUseStateNonUpdater(e);
-              }}
-            >
-              testUseStateNonUpdater {countDefault}
-            </Button>
-            <Button
-              style={{ marginBottom: "10px" }}
-              onClick={(e) => {
-                testUseStateUseUpdater(e);
-              }}
-            >
-              testUseStateUseUpdater {countUpdater}
-            </Button>
+            <Collapse isOpen={s2Collapse}>
+              <Card>
+                <CardBody>
+                  <Button
+                    style={{ marginBottom: "10px" }}
+                    onClick={(e) => {
+                      testUseStateNonUpdater(e);
+                    }}
+                  >
+                    testUseStateNonUpdater {countDefault}
+                  </Button>
+                  <Button
+                    style={{ marginBottom: "10px" }}
+                    onClick={(e) => {
+                      testUseStateUseUpdater(e);
+                    }}
+                  >
+                    testUseStateUseUpdater {countUpdater}
+                  </Button>
+                </CardBody>
+              </Card>
+            </Collapse>
           </div>
         </section>
         <section>
-          <div style={{ width: "100%", height: "1200px" }}></div>
+          <div>
+            <h1
+              style={{ color: "red" }}
+              onClick={() => {
+                setS3Collapse(!s3Collapse);
+              }}
+            >
+              Test useMemo {s3Collapse ? "Open" : "Close"}
+            </h1>
+          </div>
+          <div>
+            <Collapse isOpen={s3Collapse}>
+              <Card>
+                <CardBody>
+                  <div>
+                    <Button
+                      style={{ marginBottom: "10px" }}
+                      onClick={() => {
+                        setArticleCount(articleCount + 1);
+                      }}
+                    >
+                      testUseMemo {articleCount}
+                    </Button>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "100%",
+                    }}
+                  >
+                    {showArticle}
+                  </div>
+                </CardBody>
+              </Card>
+            </Collapse>
+          </div>
+        </section>
+        <section>
+          <div>
+            <h1
+              style={{ color: "red" }}
+              onClick={() => {
+                setS4Collapse(!s4Collapse);
+              }}
+            >
+              Test Self Hook {s4Collapse ? "Open" : "Close"}
+            </h1>
+          </div>
+          <div>
+            <Collapse isOpen={s4Collapse}>
+              <Card>
+                <CardBody>
+                  <div>原始各自寫法造成重複程式碼。</div>
+                  <ODefaultCounter />
+                  <OSuperCounter />
+                  <div>重複程式碼抽出，漸少重複碼，較容易維護。</div>
+                  <NDefaultCounter />
+                  <NSuperCounter />
+                </CardBody>
+              </Card>
+            </Collapse>
+          </div>
         </section>
       </main>
     </div>
